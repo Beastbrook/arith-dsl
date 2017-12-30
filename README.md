@@ -13,3 +13,7 @@ Step 1
 ------
 At this step, we implement the AST and parser for a simple arithmetic DSL with the following constructs:
 1) addition, 2) substraction, and 3) a constant value.
+
+Step 2
+------
+At this step, we define an interpreter for the DSL we have defined in the previous step.
