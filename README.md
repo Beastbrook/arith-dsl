@@ -41,3 +41,7 @@ As an example, in the following program:
 
 the variable `x` is initialized with the expression `2 * 3`. This variable is then used in the 
 expression `x * 4`. This program is evaluated to `24` in the run time.
+
+Step 5
+------
+Finally, we add a C code generator for this DSL. 
