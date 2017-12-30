@@ -3,7 +3,7 @@ package arith
 import scala.util.parsing.combinator.syntactical.StandardTokenParsers
 
 object ArithParser extends StandardTokenParsers {
-  lexical.delimiters += ("+", "-")
+  lexical.delimiters += ("*", "+", "-", "/")
 
   def parse(statement: String): Expr = {
   	phrase(expr)(new lexical.Scanner(statement)) match {
@@ -35,12 +35,21 @@ object ArithParser extends StandardTokenParsers {
     }
   }
 
-  lazy val expr: Parser[Expr] = factor ~ rep(("+" | "-") ~ factor) ^^ {
+  lazy val expr: Parser[Expr] = term ~ rep(("+" | "-") ~ term) ^^ {
     case t ~ ts => exprList(t, ts)
   }
 
+  lazy val term = factor ~ rep(("*" | "/") ~ factor) ^^ {
+    case t ~ ts => 
+      // yet another functional style, which is more concise than the one used in `exprList`.
+      ts.foldLeft(t) {
+        case (t1, "*" ~ t2) => Mul(t1, t2)
+        case (t1, "/" ~ t2) => Div(t1, t2)
+      }
+  }
+
   lazy val factor = 
-  	"(" ~> expr <~ ")" | 
+    "(" ~> expr <~ ")" | 
     num
 
   lazy val num = numericLit ^^ { t => Num(t.toDouble) }

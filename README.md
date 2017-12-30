@@ -17,3 +17,10 @@ At this step, we implement the AST and parser for a simple arithmetic DSL with t
 Step 2
 ------
 At this step, we define an interpreter for the DSL we have defined in the previous step.
+
+Step 3
+------
+At this step, we extend the DSL with the following constructs:
+4) multiplication, and 5) division.
+
+Note how the AST, the parser, and the interpreter are modified to reflect the changes to the DSL. 
