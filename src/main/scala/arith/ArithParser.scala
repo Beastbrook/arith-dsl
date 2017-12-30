@@ -3,7 +3,8 @@ package arith
 import scala.util.parsing.combinator.syntactical.StandardTokenParsers
 
 object ArithParser extends StandardTokenParsers {
-  lexical.delimiters += ("*", "+", "-", "/")
+  lexical.reserved   ++= List("let", "in")
+  lexical.delimiters += ("*", "+", "-", "/", "=")
 
   def parse(statement: String): Expr = {
   	phrase(expr)(new lexical.Scanner(statement)) match {
@@ -46,7 +47,9 @@ object ArithParser extends StandardTokenParsers {
         case (t1, "*" ~ t2) => Mul(t1, t2)
         case (t1, "/" ~ t2) => Div(t1, t2)
       }
-  }
+  } | (("let" ~> ident ~ ("=" ~> expr)) ~ ("in" ~> expr)) ^^ {
+    case x ~ e1 ~ e2 => LetBinding(x, e1, e2)
+  } | (ident ^^ { case x => Var(x) })
 
   lazy val factor = 
     "(" ~> expr <~ ")" | 

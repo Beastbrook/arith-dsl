@@ -6,3 +6,5 @@ case class Sub(t1: Expr, t2: Expr) extends Expr
 case class Mul(t1: Expr, t2: Expr) extends Expr
 case class Div(t1: Expr, t2: Expr) extends Expr
 case class Num(t: Double) extends Expr
+case class LetBinding(x: String, e1: Expr, e2: Expr) extends Expr
+case class Var(x: String) extends Expr
